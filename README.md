@@ -1,0 +1,1 @@
+An AI-powered plant disease detector designed to protect crops and empower farmers. By simply snapping a photo of an unhealthy plant, our platform instantly identifies the disease and provides actionable treatment solutions, helping farmers reduce crop loss and secure their livelihoods.
