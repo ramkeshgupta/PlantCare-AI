@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CropGuard Lens helps farmers detect crop diseases with AI-powered support and local treatment advice.">
+  <title>CropGuard Lens</title>
+  <style>
+    :root {
+      --green-900: #1f4d2a;
+      --green-700: #2e7d32;
+      --green-600: #3d9b4a;
+      --green-100: #edf7ee;
+      --orange-500: #ff9800;
+      --orange-400: #ffb74d;
+      --text: #1a1a1a;
+      --muted: #5f6f65;
+      --card: #ffffff;
+      --shadow: 0 10px 25px rgba(18, 52, 23, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #f7faf5 0%, #eff7ef 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(31, 77, 42, 0.95);
+      backdrop-filter: blur(8px);
+      color: white;
+      padding: 16px 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    .brand {
+      font-size: clamp(1.3rem, 2vw, 1.9rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    nav {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      font-weight: 600;
+      opacity: 0.95;
+      transition: opacity 0.2s ease;
+    }
+
+    nav a:hover { opacity: 1; }
+
+    .hero {
+      background:
+        linear-gradient(120deg, rgba(20, 58, 28, 0.84), rgba(73, 128, 62, 0.62)),
+        url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      color: white;
+      padding: 120px 5vw 90px;
+      text-align: left;
+    }
+
+    .hero-inner {
+      max-width: 700px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hero h2 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.1;
+      margin: 0 0 18px;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      margin: 0 0 28px;
+      max-width: 560px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    }
+
+    .btn-primary {
+      background: var(--orange-500);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.7);
+    }
+
+    .section {
+      padding: 72px 5vw;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 32px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 3vw, 2.7rem);
+      margin: 0 0 10px;
+      color: var(--green-900);
+    }
+
+    .section-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(200px, 1fr));
+      gap: 22px;
+      padding-top: 18px;
+    }
+
+    .feature {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 26px 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(46,125,50,0.08);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .feature h3 {
+      color: var(--green-700);
+      margin: 0 0 10px;
+      font-size: 1.3rem;
+    }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(150px, 1fr));
+      gap: 18px;
+      margin-top: 26px;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 18px 20px;
+      color: white;
+      backdrop-filter: blur(2px);
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+
+    .stat-card span {
+      font-size: 0.88rem;
+      opacity: 0.9;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(195px, 1fr));
+      gap: 22px;
+      margin-top: 36px;
+    }
+
+    .field-card {
+      background: white;
+      border-radius: 18px;
+      padding: 22px 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(26, 64, 32, 0.08);
+    }
+
+    .field-card .tag {
+      display: inline-block;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #ebf7ef;
+      color: var(--green-700);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .field-card h3 {
+      margin: 0 0 8px;
+      color: var(--green-900);
+      font-size: 1.25rem;
+    }
+
+    .field-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .workflow {
+      background: var(--green-100);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 22px;
+      margin-top: 30px;
+    }
+
+    .step {
+      background: white;
+      border-radius: 18px;
+      padding: 24px 20px;
+      box-shadow: var(--shadow);
+      border-top: 5px solid var(--orange-400);
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--green-100);
+      color: var(--green-700);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .step h3 {
+      margin: 0 0 10px;
+      color: var(--green-900);
+      font-size: 1.2rem;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .demo {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .demo-card,
+    .result-box {
+      background: white;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .demo-card h3,
+    .result-box h3 {
+      margin-top: 0;
+      color: var(--green-900);
+      font-size: 1.6rem;
+    }
+
+    form {
+      display: grid;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-weight: 600;
+      color: var(--green-900);
+    }
+
+    select,
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #dfe8df;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .upload-box {
+      display: block;
+      border: 2px dashed #b8d8bb;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #f9fff9, #f0f8f1);
+      min-height: 220px;
+      padding: 14px;
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .upload-box:hover {
+      border-color: var(--green-600);
+      transform: translateY(-1px);
+    }
+
+    .upload-box input {
+      display: none;
+    }
+
+    .upload-preview {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      display: none;
+      background: #e7f5e8;
+      cursor: pointer;
+    }
+
+    .upload-placeholder {
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 600;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.45);
+    }
+
+    .checkbox-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 16px;
+      margin-top: 8px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .checkbox-row label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .result-box {
+      background: linear-gradient(180deg, #f7fff7, #eef7ee);
+      border: 1px solid rgba(46,125,50,0.1);
+    }
+
+    .status-pill {
+      display: inline-block;
+      background: #dff6e5;
+      color: #1d6b37;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .diagnosis {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--green-900);
+      margin: 8px 0;
+    }
+
+    .notes {
+      margin: 12px 0 16px;
+      color: var(--muted);
+    }
+
+    .solution-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .solution-item {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(46,125,50,0.1);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .solution-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--green-900);
+      font-size: 0.88rem;
+    }
+
+    .solution-item span {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    footer {
+      background: var(--green-900);
+      color: white;
+      text-align: center;
+      padding: 20px 5vw;
+      font-weight: 600;
+    }
+
+    @media (max-width: 900px) {
+      .features,
+      .steps,
+      .demo {
+        grid-template-columns: repeat(2, minmax(200px, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      nav {
+        justify-content: center;
+      }
+
+      .features,
+      .steps,
+      .demo,
+      .checkbox-row {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        text-align: center;
+        padding-top: 90px;
+      }
+
+      .hero-inner {
+        margin: 0 auto;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">🌱 CropGuard Lens</div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#for-farmers">For Farmers</a>
+      <a href="#for-officers">For Officers</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="hero-inner">
+      <div class="eyebrow">Digital first opinion</div>
+      <h2>Your trusted first step to healthier crops.</h2>
+      <p>Detect crop stress, identify likely diseases, and get local treatment guidance quickly, even when you are offline.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="document.getElementById('demo').scrollIntoView({behavior: 'smooth'})">Start Diagnosis</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('how-it-works').scrollIntoView({behavior: 'smooth'})">How It Works</button>
+      </div>
+
+      <div class="stats-strip">
+        <div class="stat-card">
+          <strong>18.4K</strong>
+          <span>field images reviewed</span>
+        </div>
+        <div class="stat-card">
+          <strong>92%</strong>
+          <span>officer confidence rating</span>
+        </div>
+        <div class="stat-card">
+          <strong>7</strong>
+          <span>districts supported</span>
+        </div>
+        <div class="stat-card">
+          <strong>2 min</strong>
+          <span>average issue triage</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="for-farmers">
+    <div class="section-header">
+      <h2>Built for real farm conditions</h2>
+      <p>Simple tools for farmers, officers, and local extension teams to diagnose crop issues faster and act with more confidence.</p>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">📷</div>
+        <h3>Field photo capture</h3>
+        <p>Capture leaf and stem images in the plot, even when network quality is poor or unavailable.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🤖</div>
+        <h3>AI-based triage</h3>
+        <p>Compare observed symptoms against local disease patterns to flag the most likely crop stress.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📝</div>
+        <h3>Farmer symptom check</h3>
+        <p>Ask a few simple field questions about yellowing, wilting, or spotting to improve confidence.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🌍</div>
+        <h3>Actionable treatment advice</h3>
+        <p>Get product guidance, timing, and safe-use notes suited to the field, crop stage, and local season.</p>
+      </div>
+    </div>
+
+    <div class="field-grid">
+      <div class="field-card">
+        <div class="tag">Monitoring</div>
+        <h3>Weekly field checks</h3>
+        <p>Track disease pressure across plots to detect problems before they spread across the whole farm.</p>
+      </div>
+      <div class="field-card">
+        <div class="tag">Advisory</div>
+        <h3>Regional crop intelligence</h3>
+        <p>Use district-level disease trends to align treatment plans with current field conditions.</p>
+      </div>
+      <div class="field-card">
+        <div class="tag">Decision support</div>
+        <h3>Faster officer response</h3>
+        <p>Give extension teams a clear starting point before manual field inspection or lab confirmation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section workflow" id="how-it-works">
+    <div class="section-header">
+      <h2>Spot and treat crop issues in 4 easy steps</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Snap a Photo</h3>
+        <p>Take a close-up image of the affected leaf, stem, or plant part.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>AI Analysis</h3>
+        <p>The model checks visible symptoms and compares them to disease patterns.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Answer Questions</h3>
+        <p>Confirm disease signs such as yellowing, spotting, wilting, or fungal growth.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <h3>Get Solutions</h3>
+        <p>Review treatment recommendations, safe usage notes, and next actions.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="for-officers">
+    <div class="section-header">
+      <h2>Support field teams and advisory officers</h2>
+      <p>Enable faster scouting, stronger guidance, and better regional crop health monitoring.</p>
+    </div>
+
+    <div class="demo" id="demo">
+      <div class="demo-card">
+        <h3>Field inspection form</h3>
+        <form id="diagnosisForm">
+          <label>
+            Crop type
+            <select id="cropType">
+              <option value="Rice">Rice</option>
+              <option value="Wheat">Wheat</option>
+              <option value="Tomato">Tomato</option>
+              <option value="Potato">Potato</option>
+              <option value="Maize">Maize</option>
+            </select>
+          </label>
+
+          <label>
+            Field location
+            <input type="text" id="fieldLocation" value="Nadapuram, Kerala" placeholder="Village or block name" />
+          </label>
+
+          <label>
+            Growth stage
+            <select id="growthStage">
+              <option value="Tillering">Tillering</option>
+              <option value="Flowering">Flowering</option>
+              <option value="Early fruiting">Early fruiting</option>
+              <option value="Maturity">Maturity</option>
+            </select>
+          </label>
+
+          <label>
+            Symptoms observed
+            <div class="checkbox-row">
+              <label><input type="checkbox" name="symptom" value="Yellowing leaves"> Yellowing leaves</label>
+              <label><input type="checkbox" name="symptom" value="Leaf spots"> Leaf spots</label>
+              <label><input type="checkbox" name="symptom" value="Wilting"> Wilting</label>
+              <label><input type="checkbox" name="symptom" value="Powdery growth"> Powdery growth</label>
+            </div>
+          </label>
+
+          <label class="upload-box" for="imageInput">
+            <input type="file" id="imageInput" accept="image/*">
+            <img id="previewImage" class="upload-preview" alt="Plant preview">
+            <div id="placeholderText" class="upload-placeholder">Upload a leaf photo or click here to review a damaged plot</div>
+          </label>
+
+          <button class="btn btn-primary" type="submit">Analyze crop</button>
+        </form>
+      </div>
+
+      <div class="result-box">
+        <div class="status-pill">Risk score: 82/100</div>
+        <h3>AI field assessment</h3>
+        <div class="diagnosis" id="diagnosisResult">Leaf Blight</div>
+        <p class="notes" id="diagnosisSummary">Likely fungal infection with high probability in infected leaves. Use targeted treatment to reduce yield loss and protect profit.</p>
+
+        <div class="solution-grid">
+          <div class="solution-item">
+            <strong>Recommended product</strong>
+            <span id="productName">Azoxystrobin + Tebuconazole</span>
+          </div>
+          <div class="solution-item">
+            <strong>Application</strong>
+            <span id="applicationType">Foliar spray</span>
+          </div>
+          <div class="solution-item">
+            <strong>Dosage</strong>
+            <span id="dosageInfo">1.5–2 ml/L water</span>
+          </div>
+          <div class="solution-item">
+            <strong>Field action</strong>
+            <span id="profitInfo">Treat within 48 hours to slow spread</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    Helping farmers improve yield, resilience, and confidence 🌾
+  </footer>
+
+  <script>
+    const recommendationMap = {
+      Rice: {
+        disease: 'Leaf Blast',
+        product: 'Tricyclazole 75% WP',
+        application: 'Foliar spray',
+        dosage: '1.5 g/L water',
+        profit: 'Protects yield and reduces grain loss'
+      },
+      Wheat: {
+        disease: 'Rust Disease',
+        product: 'Propiconazole 25% EC',
+        application: 'Spray on foliage',
+        dosage: '1 ml/L water',
+        profit: 'Controls spread and prevents crop loss'
+      },
+      Tomato: {
+        disease: 'Early Blight',
+        product: 'Mancozeb 75% WP',
+        application: 'Foliar spray',
+        dosage: '2 g/L water',
+        profit: 'Saves fruit quality and market value'
+      },
+      Potato: {
+        disease: 'Late Blight',
+        product: 'Metalaxyl + Mancozeb',
+        application: 'Preventive spray',
+        dosage: '2 g/L water',
+        profit: 'Stops spread and protects the harvest'
+      },
+      Maize: {
+        disease: 'Leaf Spot',
+        product: 'Azoxystrobin 23% SC',
+        application: 'Foliar application',
+        dosage: '1 ml/L water',
+        profit: 'Prevents losses in grain output'
+      }
+    };
+
+    const imageInput = document.getElementById('imageInput');
+    const previewImage = document.getElementById('previewImage');
+    const placeholderText = document.getElementById('placeholderText');
+
+    imageInput.addEventListener('change', function (event) {
+      const [file] = event.target.files;
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        previewImage.src = e.target.result;
+        previewImage.style.display = 'block';
+        placeholderText.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    previewImage.addEventListener('click', function () {
+      if (previewImage.src) {
+        document.getElementById('diagnosisForm').requestSubmit();
+      }
+    });
+
+    document.getElementById('diagnosisForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const cropType = document.getElementById('cropType').value;
+      const fieldLocation = document.getElementById('fieldLocation').value || 'local field';
+      const growthStage = document.getElementById('growthStage').value;
+      const selectedSymptoms = Array.from(document.querySelectorAll('input[name="symptom"]:checked')).map(item => item.value);
+
+      if (!selectedSymptoms.length) {
+        document.getElementById('diagnosisResult').textContent = 'More data needed';
+        document.getElementById('diagnosisSummary').textContent = 'Please select at least one visible symptom to improve the diagnosis.';
+        return;
+      }
+
+      const selectedRecommendation = recommendationMap[cropType] || recommendationMap.Rice;
+      const symptomText = selectedSymptoms.join(', ');
+      const diseaseOptions = {
+        Rice: ['Leaf Blast', 'Brown Spot', 'Sheath Blight'],
+        Wheat: ['Rust Disease', 'Powdery Mildew', 'Leaf Blight'],
+        Tomato: ['Early Blight', 'Leaf Curl', 'Septoria'],
+        Potato: ['Late Blight', 'Scab', 'Wilt'],
+        Maize: ['Leaf Spot', 'Rust', 'Blight']
+      };
+
+      const diagnosis = diseaseOptions[cropType] ? diseaseOptions[cropType][Math.floor(Math.random() * diseaseOptions[cropType].length)] : 'Leaf Stress';
+      const riskScore = 70 + Math.floor(Math.random() * 24);
+
+      document.querySelector('.status-pill').textContent = `Risk score: ${riskScore}/100`;
+      document.getElementById('diagnosisResult').textContent = diagnosis;
+      document.getElementById('diagnosisSummary').textContent = `Detected in ${cropType} at ${growthStage.toLowerCase()} stage in ${fieldLocation} with symptoms including ${symptomText}. Early treatment is recommended to limit spread and protect yield.`;
+
+      document.getElementById('productName').textContent = selectedRecommendation.product;
+      document.getElementById('applicationType').textContent = selectedRecommendation.application;
+      document.getElementById('dosageInfo').textContent = selectedRecommendation.dosage;
+      document.getElementById('profitInfo').textContent = `${selectedRecommendation.profit} • recheck in 5–7 days`;
+    });
+  </script>
+</body>
+</html>
